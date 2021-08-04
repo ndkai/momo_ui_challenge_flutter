@@ -14,14 +14,21 @@ class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double rate = 30;
+    rate = width/rate;
+    print("SearchWidget rate ${rate}");
+    if(rate < 1){
+      rate = 1;
+    }
     return Container(
         height: height,
-        width: width,
-        margin: EdgeInsets.fromLTRB(10, 15, 10, 15),
+        width: size.width * 0.6 / rate,
+        margin: EdgeInsets.fromLTRB(5, 10, 0, 15),
         decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.blueAccent)),
+            color: width == 200? Colors.transparent: Colors.white70.withOpacity((8.32-rate)/8.32),
+            borderRadius: BorderRadius.circular(5),
+            // border: Border.all(color: Colors.blueAccent)
+        ),
         child: Center(
           child: TextField(
             textAlign: TextAlign.start,
@@ -29,7 +36,7 @@ class SearchWidget extends StatelessWidget {
             decoration: InputDecoration(
               hintStyle: TextStyle(fontSize: 18, ),
               hintText: title,
-              suffixIcon: Icon(Icons.search),
+                prefixIcon: Icon(Icons.search, color: Colors.white,),
               border: InputBorder.none,
               contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0 ),
             ),

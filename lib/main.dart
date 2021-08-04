@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:momo_homepage_ui_challenge/home_page/home_page.dart';
-
+import 'package:flutter/services.dart';
 import 'home_page/component/scroll_beha.dart';
 
 
 void main() {
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   runApp(MyApp());
 }
 

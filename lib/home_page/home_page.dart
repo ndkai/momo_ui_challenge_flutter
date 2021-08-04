@@ -24,6 +24,9 @@ class _HomePageState extends State<HomePage> {
       });
     }
     print("scrollOffset ${scrollOffset}");
+    setState(() {
+      scrollOffset;
+    });
   }
 
   double get scrollOffset {
@@ -50,45 +53,154 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return NestedScrollView(
-      controller: _scrollController,
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            expandedHeight: 200.0,
-         
-            pinned: true,
-            stretch: true,
-            backgroundColor: Colors.purple,
-            title: Row(
-              children: [
-                SearchWidget(
-                  height: 40,
-                  width: 200,
-                  title: "Tìm kiếm",
+    Size size = MediaQuery.of(context).size;
+    double rate = 10;
+    double rate2 = 10;
+    try {
+      rate2 = scrollOffset / rate;
+      if (rate2 < 1) {
+        rate2 = 1;
+      }
+    } catch (e) {
+      rate2 = 1;
+    }
+    print(" DetailMainFunction rate ${rate2}");
+    return Container(
+      color: Colors.purple,
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+        margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+        child: NestedScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                primary: false,
+                pinned: true,
+                stretch: true,
+                snap: false,
+                floating: false,
+                backgroundColor: Colors.purple,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SearchWidget(
+                      height: 40,
+                      width: _scrollController.hasClients ? scrollOffset : 0.0,
+                      title: "Tìm kiếm",
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            height: size.width * 0.2 / (rate / 6.5),
+                            width: size.width * 0.12,
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              //  color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              // border: Border.all(color: Colors.grey[300], width: 1)
+                            ),
+                            child: Column(
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle),
+                                    child: Image.asset(
+                                      "assets/black_heart.png",
+                                      color: Colors.white,
+                                      height: size.width / 13,
+                                    )),
+                                SizedBox(
+                                  height: 10 / rate,
+                                ),
+                                Container(
+                                  width: size.width * 0.12 / rate,
+                                  child: Text("asd",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: size.width / 40 / rate,
+                                          color: Colors.black)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            height: size.width * 0.2 / (rate / 6.5),
+                            width: size.width * 0.12,
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              //  color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              // border: Border.all(color: Colors.grey[300], width: 1)
+                            ),
+                            child: Column(
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        shape: BoxShape.circle),
+                                    child: Image.asset(
+                                      "assets/black_heart.png",
+                                      color: Colors.white,
+                                      height: size.width / 13,
+                                    )),
+                                SizedBox(
+                                  height: 10 / rate,
+                                ),
+                                Container(
+                                  width: size.width * 0.12 / rate,
+                                  child: Text("asd",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: size.width / 40 / rate,
+                                          color: Colors.black)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                SizedBox(width: 200,),
-                Container(child: Text("duy2"),),
-                Container(child: Text("duy2"),),
-              ],
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              stretchModes: [
-                StretchMode.zoomBackground
-              ],
-              centerTitle: true,
-              title: Align(
-                alignment: Alignment.bottomCenter,
-                child: !isShrink?DetailMainFunction():IconFunction(),),
+                flexibleSpace: FlexibleSpaceBar(
+                  stretchModes: [
+                    StretchMode.zoomBackground,
+                    StretchMode.blurBackground,
+                    StretchMode.fadeTitle,
+                  ],
+                  // centerTitle: true,
+                  titlePadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  title: DetailMainFunction(
+                      offset:
+                          _scrollController.hasClients ? scrollOffset : 0.0),
+                ),
               ),
+            ];
+          },
+          body: Center(
+            child: Text("hello world"),
           ),
-
-        ];
-      },
-      body: Center(
-        child: Text("hello world"),
+        ),
       ),
     );
   }
-
 }

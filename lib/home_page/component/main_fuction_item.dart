@@ -5,22 +5,25 @@ class MainFuctionItem extends StatelessWidget {
   final String title;
   final double width;
   final Function() onClick;
+  final double sizeRate;
 
-  const MainFuctionItem({Key key, this.imageAsset, this.title, this.onClick, this.width}) : super(key: key);
+  const MainFuctionItem({Key key, this.imageAsset, this.title, this.onClick, this.width, this.sizeRate = 1.0}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    print("sizeRate ${sizeRate}");
     return  GestureDetector(
       onTap: (){
         onClick();
       },
       child: Container(
         padding: const EdgeInsets.all(3),
-        // height: size.width * 0.25,
+        height: size.width * 0.2/ (sizeRate/6.5),
         width: width,
         margin: const EdgeInsets.fromLTRB(3,0,3,0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: sizeRate == 10.0?Colors.transparent: Colors.white.withOpacity((12.48-sizeRate)/12.48),
+          //  color: Colors.white,
           borderRadius: BorderRadius.circular(5),
           // border: Border.all(color: Colors.grey[300], width: 1)
         ),
@@ -29,14 +32,18 @@ class MainFuctionItem extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.fromLTRB(10,0,10,0),
                 decoration: BoxDecoration(
-                    color: Colors.black38,
+                  color: sizeRate == 10.0?Colors.transparent: Colors.white.withOpacity((12.48-sizeRate)/12.48),
                     shape: BoxShape.circle
                 ),
-                child: Image.asset(imageAsset, height: size.width/15, color: Colors.black,)),
-            SizedBox(height: size.height * 0.01,),
-            Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: size.width/40, color: Colors.black)),
+                child: sizeRate < 10 ?Image.asset("assets/black_heart.png", height: size.width/13 , color: Colors.pink,)
+                    :Image.asset("assets/black_heart.png", color: Colors.white, height: size.width/13,)),
+            SizedBox(height: 10/sizeRate,),
+            Container(
+                width: (width) / sizeRate,
+              child: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: size.width/40/sizeRate, color: Colors.black)),
+            )
           ],
         ),
       ),
